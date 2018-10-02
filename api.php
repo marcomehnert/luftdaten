@@ -5,7 +5,7 @@ if (isset($_SERVER['HTTP_SENSOR']))
     $headers['Sensor'] = $_SERVER['HTTP_SENSOR'];
 if (isset($_SERVER['HTTP_X_SENSOR']))
     $headers['Sensor'] = $_SERVER['HTTP_X_SENSOR'];
-
+// stop if no sensor name is detected
 if (!isset($headers['Sensor'])) {
     die("no sensor id sended!");
 }
