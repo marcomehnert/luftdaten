@@ -27,7 +27,7 @@ $json = file_get_contents('php://input');
 $results = json_decode($json, true);
 
 // declare possible field names
-$possible_fields = array("durP1", "ratioP1", "P1", "durP2", "ratioP2", "P2", "SDS_P1", "SDS_P2", "temperature", "humidity", "BMP_temperature", "BMP_pressure", "BME280_temperature", "BME280_humidity", "BME280_pressure", "samples", "min_micro", "max_micro", "signal");
+$possible_fields = array("durP1", "ratioP1", "P1", "durP2", "ratioP2", "P2", "SDS_P1", "SDS_P2", "temperature", "humidity", "BMP280_temperature", "BMP280_pressure", "BME280_temperature", "BME280_humidity", "BME280_pressure", "samples", "min_micro", "max_micro", "signal");
 
 // copy sensor data values to values array
 foreach ($results["sensordatavalues"] as $sensordatavalues) {
@@ -40,7 +40,7 @@ foreach ($possible_fields as $possible_field) {
     }
 }
 // prepare the database query
-$insert = $pdo->prepare("REPLACE INTO `" . $database_name . "`.`" . $table_name . "`(`Time`,`SensorID`,`durP1`,`ratioP1`,`P1`,`durP2`,`ratioP2`,`P2`,`SDS_P1`,`SDS_P2`,`Temp`,`Humidity`,`BMP_temperature`,`BMP_pressure`,`BME280_temperature`,`BME280_humidity`,`BME280_pressure`,`Samples`,`Min_cycle`,`Max_cycle`,`Signal`) VALUES (NOW(),:SensorID,:durP1,:ratioP1,:P1,:durP2,:ratioP2,:P2,:SDS_P1,:SDS_P2,:Temp,:Humidity,:BMP_temperature,:BMP_pressure,:BME280_temperature,:BME280_humidity,:BME280_pressure,:Samples,:Min_cycle,:Max_cycle,:Signal)");
+$insert = $pdo->prepare("REPLACE INTO `" . $database_name . "`.`" . $table_name . "`(`Time`,`SensorID`,`durP1`,`ratioP1`,`P1`,`durP2`,`ratioP2`,`P2`,`SDS_P1`,`SDS_P2`,`Temp`,`Humidity`,`BMP280_temperature`,`BMP280_pressure`,`BME280_temperature`,`BME280_humidity`,`BME280_pressure`,`Samples`,`Min_cycle`,`Max_cycle`,`Signal`) VALUES (NOW(),:SensorID,:durP1,:ratioP1,:P1,:durP2,:ratioP2,:P2,:SDS_P1,:SDS_P2,:Temp,:Humidity,:BMP280_temperature,:BMP280_pressure,:BME280_temperature,:BME280_humidity,:BME280_pressure,:Samples,:Min_cycle,:Max_cycle,:Signal)");
 // execute the database query
 $insert->execute(array(
     ':SensorID' => $headers['Sensor'],
@@ -54,8 +54,8 @@ $insert->execute(array(
     ':SDS_P2' => $values["SDS_P2"],
     ':Temp' => $values["temperature"],
     ':Humidity' => $values["humidity"],
-    ':BMP_temperature' => $values["BMP_temperature"],
-    ':BMP_pressure' => $values["BMP_pressure"],
+    ':BMP280_temperature' => $values["BMP280_temperature"],
+    ':BMP280_pressure' => $values["BMP280_pressure"],
     ':BME280_temperature' => $values["BME280_temperature"],
     ':BME280_humidity' => $values["BME280_humidity"],
     ':BME280_pressure' => $values["BME280_pressure"],
