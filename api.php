@@ -6,7 +6,7 @@ if (isset($_SERVER['HTTP_SENSOR']))
 if (isset($_SERVER['HTTP_X_SENSOR']))
     $headers['Sensor'] = $_SERVER['HTTP_X_SENSOR'];
 // stop if no sensor name is detected
-if (!isset($headers['Sensor'])) {
+if (! isset($headers['Sensor'])) {
     die("no sensor id sended!");
 }
 
@@ -17,25 +17,45 @@ $database_user = "change_it";
 $database_password = "change_it";
 $table_name = "sensor_data";
 
-//establish the database connection
+// establish the database connection
 $pdo = new PDO('mysql:host=' . $database_host . ';dbname=' . $database_name, $database_user, $database_password);
 
-//read the content sended to the API file
+// read the content sended to the API file
 $json = file_get_contents('php://input');
 
 // decode the encoded data into the results array
 $results = json_decode($json, true);
 
 // declare possible field names
-$possible_fields = array("durP1", "ratioP1", "P1", "durP2", "ratioP2", "P2", "SDS_P1", "SDS_P2", "temperature", "humidity", "BMP280_temperature", "BMP280_pressure", "BME280_temperature", "BME280_humidity", "BME280_pressure", "samples", "min_micro", "max_micro", "signal");
+$possible_fields = array(
+    "durP1",
+    "ratioP1",
+    "P1",
+    "durP2",
+    "ratioP2",
+    "P2",
+    "SDS_P1",
+    "SDS_P2",
+    "temperature",
+    "humidity",
+    "BMP280_temperature",
+    "BMP280_pressure",
+    "BME280_temperature",
+    "BME280_humidity",
+    "BME280_pressure",
+    "samples",
+    "min_micro",
+    "max_micro",
+    "signal"
+);
 
 // copy sensor data values to values array
 foreach ($results["sensordatavalues"] as $sensordatavalues) {
     $values[$sensordatavalues["value_type"]] = $sensordatavalues["value"];
 }
-//set missing fields to ensure their presence
+// set missing fields to ensure their presence
 foreach ($possible_fields as $possible_field) {
-    if (!isset($values[$possible_field])) {
+    if (! isset($values[$possible_field])) {
         $values[$possible_field] = NULL;
     }
 }
