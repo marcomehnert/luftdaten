@@ -53,6 +53,18 @@ $possible_fields = array(
 foreach ($results["sensordatavalues"] as $sensordatavalues) {
     $values[$sensordatavalues["value_type"]] = $sensordatavalues["value"];
 }
+
+if(!isset($values["temperature"]) && isset($values["BME280_temperature"])){
+	$values["temperature"] = $values["BME280_temperature"];
+}
+if(!isset($values["temperature"]) && isset($values["BMP280_temperature"])){
+	$values["temperature"] = $values["BMP280_temperature"];
+}
+
+if(!isset($values["humidity"]) && isset($values["BME280_humidity"])){
+	$values["humidity"] = $values["BME280_humidity"];
+}
+   
 // set missing fields to ensure their presence
 foreach ($possible_fields as $possible_field) {
     if (! isset($values[$possible_field])) {
